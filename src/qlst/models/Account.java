@@ -25,7 +25,9 @@ public class Account {
         this.active = active;
         
     }
-
+    
+    public Account(){}
+    
     public Account(String tenDangNhap, String password) {
         this.tenDangNhap = tenDangNhap;
         this.password = password;

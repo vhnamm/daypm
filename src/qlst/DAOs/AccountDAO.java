@@ -4,7 +4,7 @@
  */
 package qlst.DAOs;
 
-import com.mysql.cj.xdevapi.Result;
+
 import qlst.models.Account;
 import java.sql.*;
 import java.util.logging.Level;
@@ -17,10 +17,11 @@ import qlst.Utils.ConnectDB;
  */
 public class AccountDAO {
     
-    public boolean checkLogin(Account acc){
+    public Account checkLogin(Account acc){
         Connection conn = null;
         PreparedStatement pre = null;
         ResultSet rs = null;
+        Account x = null;
         
         try {
             conn = ConnectDB.getInstance(); // buoc 1
@@ -33,7 +34,14 @@ public class AccountDAO {
             rs = pre.executeQuery();
             
             if(rs.next()){
-                return true;
+               x = new Account();
+               
+               x.setID(rs.getInt("ID"));
+               x.setUserID(rs.getInt("userID"));
+               x.setTenDangNhap(rs.getString("tenDangNhap"));
+               x.setPassword(rs.getString("password"));
+               x.setRole(rs.getString("role"));
+               x.setActive(rs.getBoolean("active"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -48,7 +56,7 @@ public class AccountDAO {
             
         }
         
-        return false;
+        return x;
     }
     
     

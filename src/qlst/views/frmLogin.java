@@ -110,14 +110,32 @@ public class frmLogin extends javax.swing.JFrame {
         
         Account acc =  new Account(username, password);
         AccountDAO accountDAO = new AccountDAO();
+        //---------------------------------------------
+        Account taikhoan = accountDAO.checkLogin(acc);
         
-        boolean ok = accountDAO.checkLogin(acc);
-        
-        if(ok){
-            JOptionPane.showMessageDialog(this, "Đăngg nhập thành công");
+        if(taikhoan == null){
+            JOptionPane.showMessageDialog(this, "Sai tai khoan hoac mat khau");
+            
         }else{
-            JOptionPane.showMessageDialog(this, "Sai tài khoản hoặc mật khẩu");
+            switch (taikhoan.getRole()) {
+                case "quanly":
+                    frmAdminMain admin = new frmAdminMain();
+                    admin.setVisible(true);
+                    this.setVisible(false);
+                    break;
+                case "nhanvien":
+                    frmEmployeeMain employeeMain = new frmEmployeeMain();
+                    employeeMain.setVisible(true);
+                    this.setVisible(false);
+                    break;
+                case "khach":
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
+        
+        
     }//GEN-LAST:event_btnLoginActionPerformed
 
 
